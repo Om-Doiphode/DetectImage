@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore")
 
 import json
 from flask_cors import CORS
-from flask import Flask, request
+from flask import Flask, request, Response
 
 import numpy as np
 from PIL import Image
@@ -48,7 +48,10 @@ def predict():
         predicted_class_idx = logits.argmax(-1).item()
         print(model.config.id2label[predicted_class_idx])
         # Return the predictions
-        return json.dumps({"class": model.config.id2label[predicted_class_idx]})
+        response=json.dumps({"class": model.config.id2label[predicted_class_idx]})
+        response = Response(response)
+        response.headers['Content-Security-Policy'] = "script-src 'self' render.com;"  # Modify this CSP as needed
+        return response
     except:
         return json.dumps({"Uh oh": "We are down"})
 
