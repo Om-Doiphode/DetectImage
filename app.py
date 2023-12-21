@@ -52,6 +52,3 @@ def predict():
     except:
         return json.dumps({"Uh oh": "We are down"})
 
-
-if __name__ == "__main__":
-    app.run(threaded=True, debug=True)
